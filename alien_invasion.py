@@ -26,21 +26,22 @@ class AlienInvasion:
     def run_game(self):
         """Start the main loop of the game"""
         while True:
-            self.ship.update()
             self._check_events()
+            self.ship.update()
             self.bullets.update()
-            self._update_screen() 
+            self._update_screen()
+            self.clock.tick(60)
+    def _update_bullets(self):
+        """Update position of bullets and get rid of old bullets."""
+        # Update bullet positions.
+     
 
         # Get rid of bullets that have disappeared.
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom <= 0:
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
                     self.bullets.remove(bullet)
-            print(len(self.bullets))
-               
-            
-            # Make the most recently drawn screen visible
-            pygame.display.flip()
-            self.clock.tick(60)
+            print(len(self.bullets))             
+        
     
     def _check_events(self):
         """Respond to keypresses and mouse events"""
@@ -79,7 +80,8 @@ class AlienInvasion:
         self.screen.fill(self.settings.bg_color)
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
-        self.ship.blitme() 
+        self.ship.blitme()
+        pygame.display.flip()
 
 
 if __name__ == '__main__':
