@@ -1,3 +1,12 @@
+"""
+Alien Invasion Game, Milestone 1
+Ryma Djoudad
+Game that has bullet-firing ship that moves up and down
+Starter code from participation activity (Python crash course, 3rd edition)
+4/11/2026
+"""
+
+
 import sys
 import pygame
 from settings import Settings
@@ -19,6 +28,8 @@ class AlienInvasion:
             )
         pygame.display.set_caption("Alien Invasion")
 
+        self.screen_rect = self.screen.get_rect()
+
         self.ship = Ship(ai_game=self)
         self.bullets = pygame.sprite.Group()
 
@@ -28,20 +39,21 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.ship.update()
-            self.bullets.update()
+            self._update_bullets()
             self._update_screen()
             self.clock.tick(60)
+
     def _update_bullets(self):
         """Update position of bullets and get rid of old bullets."""
-        # Update bullet positions.
-     
+         # Update bullet positions.
+        self.bullets.update()
 
-        # Get rid of bullets that have disappeared.
+        # Get rid of bullets that have disappeared
         for bullet in self.bullets.copy():
-            if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
-            print(len(self.bullets))             
-        
+            if bullet.rect.left >= self.screen_rect.right :
+                self.bullets.remove(bullet)
+        print(len(self.bullets))
+               
     
     def _check_events(self):
         """Respond to keypresses and mouse events"""
@@ -58,29 +70,39 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = True
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = True
         elif event.key == pygame.K_q:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+
     def _check_keyup_events(self, event):
         """Respond to key releases."""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
+        elif event.key == pygame.K_UP:
+            self.ship.moving_up = False
+        elif event.key == pygame.K_DOWN:
+            self.ship.moving_down = False
+
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
 
-
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen"""
         self.screen.fill(self.settings.bg_color)
         for bullet in self.bullets.sprites():
-            bullet.draw_bullet()
-        self.ship.blitme()
+            bullet.draw_bullet()  
+        self.ship.blitme() 
+
         pygame.display.flip()
 
 
