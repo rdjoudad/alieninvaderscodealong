@@ -34,6 +34,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self.bullets.update()
+            self._update_bullets()
             self._update_aliens()
             self._update_screen()
             self.clock.tick(60)
@@ -52,7 +53,7 @@ class AlienInvasion:
                 self.bullets, self.aliens, True, True) 
 
     def _update_aliens(self):
-        """Update the positions of all aliens in the fleet."""
+        """Check if the fleet is at an edge, then update positions."""
         self._check_fleet_edges()
         self.aliens.update()        
         
