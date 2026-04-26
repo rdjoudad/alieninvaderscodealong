@@ -6,6 +6,8 @@ from game_stats import GameStats
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from button import Button
+
 
 
 
@@ -34,6 +36,9 @@ class AlienInvasion:
 
         # Start Alien Invasion in an inactive state.
         self.game_active = False
+
+        # Make the Play button.
+        self.play_button = Button(self, "Play")
 
 
     def run_game(self):
